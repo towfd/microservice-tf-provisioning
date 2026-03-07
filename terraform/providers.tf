@@ -17,7 +17,7 @@ terraform {
 # -----------------------------------------------------------
 provider "aws" {
   # AWS資源建立地點
-  region = "ap-east-2" 
+  region = var.aws_region
 }
 
 # -----------------------------------------------------------
@@ -26,5 +26,5 @@ provider "aws" {
 provider "google" {
   # GCP專案名、資源建立地點
   project = var.gcp_project_id  
-  region  = "asia-east1" 
+  region  = var.gcp_region 
 }
