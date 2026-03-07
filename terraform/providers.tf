@@ -1,13 +1,13 @@
 terraform {
-  # 宣告需要用的雲端供應商、版本
+  # 宣告雲端供應商、版本
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0" # 使用 5.x 版本的 AWS 模組
+      version = "~> 5.0" 
     }
     google = {
       source  = "hashicorp/google"
-      version = "~> 5.0" # 使用 5.x 版本的 GCP 模組
+      version = "~> 5.0"
     }
   }  
 }
@@ -17,7 +17,7 @@ terraform {
 # -----------------------------------------------------------
 provider "aws" {
   # AWS資源建立地點
-  region = "ap-east2" 
+  region = "ap-east-2" 
 }
 
 # -----------------------------------------------------------

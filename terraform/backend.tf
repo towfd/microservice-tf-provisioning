@@ -1,10 +1,9 @@
 terraform {
   backend "s3" {
     # S3 Bucket名稱
-    bucket = var.s3_bucket_name
-    
+    bucket = "fd-terraform-project-s3-backend-store"
     # 日誌檔檔名與路徑
     key    = "terraform/state/terraform.tfstate"    
-    region = "ap-east2"
+    region = "ap-east-2"
   }
 }
