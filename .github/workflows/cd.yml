@@ -10,6 +10,17 @@ jobs:
   deploy-infrastructure:
     name: Terraform Apply (Infrastructure)
     runs-on: ubuntu-latest
+    env:
+        # AWS 金鑰(GitHub Secrets)
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        
+        # GCP 金鑰(GitHub Secrets)
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+        
+        # 專案變數(GitHub variables)
+        TF_VAR_gcp_project_id: ${{ vars.GCP_PROJECT_ID }}
+        TF_VAR_s3_bucket_name: ${{ vars.s3_bucket_name }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
