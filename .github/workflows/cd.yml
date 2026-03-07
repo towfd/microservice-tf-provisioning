@@ -1,0 +1,39 @@
+name: CD - Deploy to Multi-Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # 部署基礎設施 (Terraform)
+  deploy-infrastructure:
+    name: Terraform Apply (Infrastructure)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        
+      - name: Terraform Apply Placeholder
+        run: |
+          echo "模擬動作：AWS 與 GCP 的網路、資料庫、K8s 叢集部署完成！"
+
+  # 部署微服務應用程式
+  deploy-services:
+    name: Build & Deploy Microservices
+    needs: deploy-infrastructure  # 待 Terraform 執行完畢
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Build & Push Images Placeholder
+        run: |
+          echo "模擬動作：成功推送到雲端的 Image Registry"
+          
+      - name: Deploy Application Placeholder
+        run: |
+          echo "全端微服務應用程式上線"
