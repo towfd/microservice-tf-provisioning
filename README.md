@@ -32,7 +32,7 @@ A multi-cloud IaC project using Terraform to provision AWS ECR and GCP GKE for a
 *   **Frontend**: Vue.js
 *   **Backend Services**: Python (Django for Auth, FastAPI for Core API)
 
-## Directory Structure
+## Directory Structure 
 
 ```text
 .
