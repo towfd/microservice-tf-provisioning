@@ -53,7 +53,7 @@ graph TD
     end
 
     subgraph AWS_Cloud [AWS - Provider]
-        ECR[(Amazon ECR)]
+        ECR[(Amazon ECR <br> FE, Auth, API Images)]
     end
 
     subgraph GCP_Cloud [GCP - Provider]

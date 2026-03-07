@@ -20,7 +20,6 @@ jobs:
         
         # 專案變數(GitHub variables)
         TF_VAR_gcp_project_id: ${{ vars.GCP_PROJECT_ID }}
-        TF_VAR_s3_bucket_name: ${{ vars.s3_bucket_name }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -28,10 +27,12 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         
-      - name: Terraform Apply Placeholder
+      - name: Terraform Init and Apply
+        working-directory: ./terraform
         run: |
-          echo "模擬動作：AWS 與 GCP 的網路、資料庫、K8s 叢集部署完成！"
-
+          terraform init
+          terraform apply -auto-approve
+          
   # 部署微服務應用程式
   deploy-services:
     name: Build & Deploy Microservices
