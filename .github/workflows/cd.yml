@@ -15,9 +15,6 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         
-        # GCP 金鑰(GitHub Secrets)
-        GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
-        
         # 專案變數(GitHub variables)
         TF_VAR_GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
         TF_VAR_GCP_REGION: ${{ vars.GCP_REGION }}
@@ -25,6 +22,11 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
         
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
