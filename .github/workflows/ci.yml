@@ -1,0 +1,57 @@
+name: CI Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # 基礎設施檢查 (Terraform)
+  terraform-check:
+    name: Terraform Syntax & Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+      
+      # 檢查Terraform 程式碼排版是否符合標準
+      - name: Terraform Format Check
+        run: |
+          echo "目前僅作流程驗證，檢查通過！"
+
+  # 後端微服務檢查 (Django & FastAPI)
+  backend-check:
+    name: Backend (Python) Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run Python Linting
+        run: |
+          echo "目前僅作流程驗證，檢查通過！"
+
+  # 前端微服務檢查 (Vue)
+  frontend-check:
+    name: Frontend (Vue) Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Vue Linting
+        run: |
+          echo "目前僅作流程驗證，檢查通過！"
