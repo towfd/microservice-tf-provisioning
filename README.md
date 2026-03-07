@@ -32,7 +32,7 @@ A multi-cloud IaC project using Terraform to provision AWS ECR and GCP GKE for a
 *   **Frontend**: Vue.js
 *   **Backend Services**: Python (Django for Auth, FastAPI for Core API)
 
-## Directory Structure 
+## Directory Structure
 
 ```text
 .
@@ -43,3 +43,44 @@ A multi-cloud IaC project using Terraform to provision AWS ECR and GCP GKE for a
 │   └── api/             # FastAPI translation service & Dockerfile
 ├── k8s/                 # Kubernetes manifests (Deployments, Services, Ingress)
 └── terraform/           # Terraform configuration files (AWS & GCP)
+```
+
+
+```mermaid
+graph TD
+    subgraph GitHub_Actions [CI/CD Pipeline]
+        GA[GitHub Actions]
+    end
+
+    subgraph AWS_Cloud [AWS - Provider]
+        ECR[(Amazon ECR)]
+    end
+
+    subgraph GCP_Cloud [GCP - Provider]
+        GKE{GKE Cluster}
+        VA[Vertex AI / Gemini]
+        
+        subgraph Microservices [Kubernetes Pods]
+            FE[Vue.js Frontend]
+            Auth[Django Auth]
+            API[FastAPI Core]
+        end
+    end
+
+    %% 流程線
+    GA -->|Build 、 Push Image| ECR
+    GA -->|IaC: Terraform Apply| GKE
+    GA -->|IaC: Terraform Apply| ECR
+    GKE -.->|Cross-Cloud Pull| ECR
+    API ===>|gRPC / REST| VA
+    
+    %% 服務間通信
+    FE ---|HTTP/JSON| Auth
+    Auth ---|Internal Cluster IP| API
+
+    %% 樣式美化
+    style GA fill:#f9f,stroke:#333,stroke-width:2px
+    style ECR fill:#FF9900,stroke:#fff,stroke-width:2px,color:#fff
+    style GKE fill:#4285F4,stroke:#fff,stroke-width:2px,color:#fff
+    style VA fill:#1a73e8,stroke:#fff,stroke-width:2px,color:#fff
+```
