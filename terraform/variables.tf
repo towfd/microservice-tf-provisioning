@@ -1,3 +1,15 @@
+# GCP Region
+variable "gcp_region" {
+  description = "The Region of Google Cloud"
+  type        = string
+}
+
+# AWS Region
+variable "aws_region" {
+  description = "The Region of AWS"
+  type        = string
+}
+
 # GCP 專案 ID 的變數
 variable "gcp_project_id" {
   description = "The ID of the Google Cloud project"

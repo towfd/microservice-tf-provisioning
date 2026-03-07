@@ -19,7 +19,9 @@ jobs:
         GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
         
         # 專案變數(GitHub variables)
-        TF_VAR_gcp_project_id: ${{ vars.GCP_PROJECT_ID }}
+        TF_VAR_GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+        TF_VAR_GCP_REGION: ${{ vars.GCP_REGION }}
+        TF_VAR_AWS_REGION: ${{ vars.AWS_REGION }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
