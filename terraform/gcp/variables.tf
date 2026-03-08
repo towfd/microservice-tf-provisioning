@@ -18,3 +18,17 @@ variable "environment" {
   type        = string
   default     = "dev"
 }
+
+# =========================================
+# GitHub 整合變數
+# =========================================
+variable "repo_name" {
+  description = "GitHub 專案名稱 (帳號/專案名)"
+  type        = string
+}
+
+variable "repo_branch" {
+  description = "監聽分支名稱"
+  type        = string
+  default     = "main"
+}

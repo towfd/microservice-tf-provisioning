@@ -1,0 +1,18 @@
+steps:
+  - id: 'terraform init'
+    name: 'hashicorp/terraform:1.7.5'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        cd terraform/gcp
+        terraform init
+
+  - id: 'terraform apply'
+    name: 'hashicorp/terraform:1.7.5'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        cd terraform/gcp
+        terraform apply -auto-approve
