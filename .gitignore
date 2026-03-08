@@ -1,5 +1,5 @@
 .DS_Store
 # Terraform local variables
 *.tfvars
-terraform/.terraform/
+**/.terraform/
 terraform/*.tfstate*
