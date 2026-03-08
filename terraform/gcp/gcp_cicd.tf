@@ -32,11 +32,15 @@ resource "google_cloudbuild_trigger" "gcp_pipeline" {
 
   repository_event_config {
     repository = google_cloudbuildv2_repository.github_repo_link.id
-
     push {
       branch = "^main$"
     }
   }
 
   filename = "terraform/gcp/cloudbuild.yaml"
+
+  substitutions = {
+    _REPO_NAME  = var.repo_name
+    _GCP_REGION = var.gcp_region
+  }
 }
