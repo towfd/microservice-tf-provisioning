@@ -16,3 +16,5 @@ steps:
       - |
         cd terraform/gcp
         terraform apply -auto-approve
+options:
+  logging: CLOUD_LOGGING_ONLY
