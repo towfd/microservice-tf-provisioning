@@ -75,12 +75,12 @@ resource "aws_codepipeline" "tf_pipeline" {
   stage {
     name = "Build"
     action {
-      name             = "Build"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      input_artifacts  = ["source_output"]
-      version          = "1"
+      name            = "Build"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["source_output"]
+      version         = "1"
       configuration = {
         ProjectName = aws_codebuild_project.tf_build.name
       }
@@ -98,8 +98,8 @@ resource "aws_iam_role" "codebuild_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
       Principal = { Service = "codebuild.amazonaws.com" }
     }]
   })
@@ -115,8 +115,8 @@ resource "aws_iam_role" "codepipeline_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
       Principal = { Service = "codepipeline.amazonaws.com" }
     }]
   })
@@ -128,8 +128,8 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["s3:*", "codebuild:*", "codestar-connections:UseConnection", "iam:PassRole"]
+        Effect   = "Allow"
+        Action   = ["s3:*", "codebuild:*", "codestar-connections:UseConnection", "iam:PassRole"]
         Resource = "*"
       }
     ]
