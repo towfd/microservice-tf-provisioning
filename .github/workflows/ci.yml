@@ -7,105 +7,37 @@ on:
 
 jobs:
 
-  # ====================================
+# ====================================
   # Terraform 靜態檢查
-  # ====================================
+# ====================================
   terraform-check:
     name: Terraform Format & Validate
     runs-on: ubuntu-latest
-
-    env:
-      # Terraform 需要的變數 (GitHub Variables)
-      TF_VAR_gcp_project_id: ${{ vars.GCP_PROJECT_ID }}
-      TF_VAR_gcp_region: ${{ vars.GCP_REGION }}
-      TF_VAR_aws_region: ${{ vars.AWS_REGION }}
+    
+    # 進入 aws 和 gcp 資料夾執行
+    strategy:
+      matrix:
+        cloud_provider: [aws, gcp]
 
     steps:
 
-      # 下載 repo 程式碼
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 安裝 Terraform CLI
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      # 檢查 Terraform 排版是否符合標準
+      # 排版檢查
       - name: Terraform Format Check
         working-directory: ./terraform
         run: terraform fmt -check -recursive
 
-      # 初始化 Terraform (跳過 backend，避免連到遠端 state)
+      # Init
       - name: Terraform Init (No Backend)
-        working-directory: ./terraform
+        working-directory: ./terraform/${{ matrix.cloud_provider }}
         run: terraform init -backend=false
 
-      # 驗證 Terraform 語法是否正確
+      # 分別驗證各自的語法
       - name: Terraform Validate
-        working-directory: ./terraform
+        working-directory: ./terraform/${{ matrix.cloud_provider }}
         run: terraform validate
-
-
-  # ====================================
-  # Backend (Python) 基本檢查
-  # ====================================
-  backend-check:
-    name: Backend Check
-    runs-on: ubuntu-latest
-
-    steps:
-
-      # 下載程式碼
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      # 安裝 Python 環境
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      # 安裝 backend 依賴 (之後可改成 requirements.txt)
-      - name: Install backend dependencies
-        run: |
-          echo "未來加入 pip install -r requirements.txt"
-
-      # 執行 backend lint 或測試
-      - name: Run backend lint/test
-        run: |
-          echo "未來加入 ruff / flake8 / pytest"
-
-
-  # ====================================
-  # Frontend (Vue) 基本檢查
-  # ====================================
-  frontend-check:
-    name: Frontend Check
-    runs-on: ubuntu-latest
-
-    steps:
-
-      # 下載程式碼
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      # 安裝 Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      # 安裝前端依賴
-      - name: Install frontend dependencies
-        run: |
-          echo "未來可加入 npm ci"
-
-      # 執行前端 lint
-      - name: Run frontend lint
-        run: |
-          echo "未來加入 npm run lint"
-
-      # 確認前端專案可以成功 build
-      - name: Run frontend build check
-        run: |
-          echo "未來加入 npm run build"
