@@ -48,23 +48,22 @@ A multi-cloud IaC project using Terraform to provision AWS ECR and GCP GKE for a
 
 ```mermaid
 graph TD
-    subgraph GitHub_Actions [CI/CD Pipeline]
-        GA[GitHub Actions]
+    PR[Pull Request / Push] --> GHA[GitHub Actions - CI Only]
+
+    GHA --> TFCheck[Terraform fmt / validate]
+    GHA --> FECheck[Frontend lint / build check]
+    GHA --> BECheck[Backend lint / test]
+
+    GHA --> AWSPipe[AWS Pipeline]
+    GHA --> GCPPipe[GCP Internal Pipeline]
+
+    subgraph AWS_Cloud [AWS]
+        AWSPipe --> ECR[(Amazon ECR)]
     end
 
-    subgraph AWS_Cloud [AWS - Provider]
-        ECR[(Amazon ECR <br> FE, Auth, API Images)]
-    end
-
-    subgraph GCP_Cloud [GCP - Provider]
-        GKE{GKE Cluster}
-        VA[Vertex AI / Gemini]
-        
-        subgraph Microservices [Kubernetes Pods]
-            FE[Vue.js Frontend]
-            Auth[Django Auth]
-            API[FastAPI Core]
-        end
+    subgraph GCP_Cloud [GCP]
+        GCPPipe --> GKE[GKE Cluster]
+        GCPPipe --> VA[Vertex AI / Gemini]
     end
 
     %% 流程線
