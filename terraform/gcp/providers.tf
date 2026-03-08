@@ -1,4 +1,3 @@
-# terraform/gcp/providers.tf
 terraform {
   required_providers {
     google = {
