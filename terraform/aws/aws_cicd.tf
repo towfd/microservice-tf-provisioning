@@ -53,6 +53,22 @@ resource "aws_codepipeline" "tf_pipeline" {
   name     = "tf-aws-infrastructure-pipeline-iac"
   role_arn = aws_iam_role.codepipeline_role.arn
 
+  # 新增 V2 宣告以啟用路徑過濾
+  pipeline_type = "V2"
+
+  # 新增路徑過濾條件
+  trigger {
+    provider_type = "CodeStarSourceConnection"
+    git_configuration {
+      source_action_name = "Source"
+      push {
+        file_paths {
+          includes = ["terraform/aws/**"]
+        }
+      }
+    }
+  }
+
   artifact_store {
     location = aws_s3_bucket.pipeline_artifacts.bucket
     type     = "S3"
