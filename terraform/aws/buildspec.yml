@@ -3,11 +3,11 @@ version: 0.2
 phases:
   install:
     commands:
-      # 下載並安裝 Terraform
+      # 下載到 /tmp 暫存區並解壓縮，避免跟 terraform 資料夾撞名
       - echo "Installing Terraform..."
-      - curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
-      - unzip -o terraform.zip
-      - sudo mv terraform /usr/local/bin/
+      - curl -s -qL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
+      - unzip -o /tmp/terraform.zip -d /tmp/
+      - sudo mv /tmp/terraform /usr/local/bin/
       - terraform --version
 
   pre_build:
