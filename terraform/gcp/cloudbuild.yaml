@@ -16,5 +16,10 @@ steps:
       - |
         cd terraform/gcp
         terraform apply -auto-approve
+    env:
+      - 'TF_VAR_repo_name=${_REPO_NAME}'
+      - 'TF_VAR_gcp_region=${_GCP_REGION}'
+      - 'TF_VAR_gcp_project_id=$PROJECT_ID'
+
 options:
   logging: CLOUD_LOGGING_ONLY
