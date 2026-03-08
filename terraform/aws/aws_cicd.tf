@@ -35,7 +35,7 @@ resource "aws_codebuild_project" "tf_build" {
       name  = "TF_VAR_aws_region"
       value = var.aws_region
     }
-    
+
     environment_variable {
       name  = "TF_VAR_repo_name"
       value = var.repo_name
