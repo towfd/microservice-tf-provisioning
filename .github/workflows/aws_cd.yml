@@ -1,0 +1,51 @@
+name: CD - Build and Push Images to AWS ECR
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+
+  deploy-aws-images:
+    name: Build & Push Microservices
+    runs-on: ubuntu-latest
+
+    # 三個微服務共用同一個 pipeline
+    strategy:
+      matrix:
+        service: [frontend, auth, api]
+
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+
+    steps:
+
+      # 取得 repo 程式碼
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 設定 AWS credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      # 登入 ECR registry
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Build 並 Push Docker Image
+      - name: Build and Push Image
+        env:
+          SERVICE: ${{ matrix.service }}                     # 當前服務名稱
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }} # ECR registry URL
+          IMAGE_TAG: ${{ github.sha }}                       # 使用 commit SHA 當 image tag
+        run: |
+          echo "Building image for $SERVICE"
+
+          docker build -t $ECR_REGISTRY/tf-project-$SERVICE:$IMAGE_TAG ./$SERVICE
+          docker push $ECR_REGISTRY/tf-project-$SERVICE:$IMAGE_TAG
