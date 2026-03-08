@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      # 下載並安裝 Terraform
+      - echo "Installing Terraform..."
+      - curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
+      - unzip -o terraform.zip
+      - sudo mv terraform /usr/local/bin/
+      - terraform --version
+
+  pre_build:
+    commands:
+      # 切換到 AWS 的 Terraform 資料夾並初始化
+      - echo "Entering AWS terraform directory..."
+      - cd terraform/aws
+      - echo "Initializing Terraform..."
+      - terraform init
+
+  build:
+    commands:
+      # 自動確認並建立資源
+      - echo "Applying Terraform configurations..."
+      - terraform apply -auto-approve
+
+  post_build:
+    commands:
+      # 完成
+      - echo "AWS Infrastructure deployment completed successfully! 🎉"
