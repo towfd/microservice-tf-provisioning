@@ -29,7 +29,7 @@ resource "aws_iam_role" "github_actions_role" {
           }
           StringLike = {
             # 限制Repo 可以拿通行證
-            "token.actions.githubusercontent.com:sub" : "repo:towfd/microservice-tf-provisioning:*"
+            "token.actions.githubusercontent.com:sub" : "repo:towfd/microservice-tf-provisioning:ref:refs/heads/main"
           }
         }
       }

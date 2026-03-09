@@ -3,7 +3,7 @@ name: Build and Push FastAPI to ECR
 on:
   push:
     branches:
-      - feature/github-actions-ecr # 在現在測試的這個分支觸發
+      - main
     paths:
       - 'services/api/**'          # 只有當 API 資料夾異動時才打包
   workflow_dispatch:             
