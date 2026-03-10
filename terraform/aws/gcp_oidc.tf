@@ -4,8 +4,11 @@
 
 # 建立 Google OIDC 身份
 resource "aws_iam_openid_connect_provider" "google" {
-  url            = "https://accounts.google.com"
-  client_id_list = ["sts.amazonaws.com"]
+  url = "https://accounts.google.com"
+  client_id_list = [
+    "sts.amazonaws.com",
+    "115176010041409675273"
+  ]
   # Google 官方的憑證指紋
   thumbprint_list = ["08745487e891c19e3078c1f2a07e452950ef36f6", "ffffffffffffffffffffffffffffffffffffffff"]
 }
@@ -25,8 +28,10 @@ resource "aws_iam_role" "gke_ecr_pull_role" {
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
           StringEquals = {
-            # 確保是要來換取 AWS 臨時憑證的請求
-            "accounts.google.com:aud" : "sts.amazonaws.com"
+            "accounts.google.com:aud" : [
+              "sts.amazonaws.com",
+              "115176010041409675273"
+            ]
           }
           StringLike = {
             # 用來限制只有哪個 GCP 可以拿通行證
