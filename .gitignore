@@ -1,5 +1,31 @@
 .DS_Store
+# ========================
 # Terraform local variables
+# ========================
 *.tfvars
 **/.terraform/
 terraform/*.tfstate*
+
+# ========================
+# Node / Frontend 相關
+# ========================
+frontend/node_modules/
+frontend/.vscode/
+frontend/dist/
+npm-debug.log
+yarn-error.log
+
+# ========================
+# Python / Django / FastAPI 相關
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+services/auth/db.sqlite3
+
+# ========================
+# 環境變數
+# ========================
+.env
+.env.*

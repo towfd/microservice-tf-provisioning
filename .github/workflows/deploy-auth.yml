@@ -1,0 +1,46 @@
+name: Build and Push Auth to ECR
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'services/auth/**'     
+  workflow_dispatch:             
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 取得最新程式碼
+        uses: actions/checkout@v4
+
+      - name: 透過 OIDC 取得 AWS 臨時通行證
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::576212613996:role/github-actions-ecr-role
+          aws-region: ap-northeast-1             
+
+      - name: 登入 AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: 打包並推送到 ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: tf-project-auth 
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          cd services/auth
+          
+          echo "開始打包 Auth Docker Image..."
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          
+          echo "開始推送 Auth 至 AWS ECR..."
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
