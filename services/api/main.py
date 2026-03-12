@@ -1,8 +1,18 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from google import genai
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="AI Translation API", version="0.1.0")
+
+# CORS 設定，允許所有來源連線
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # 建立 Pydantic 模型接收前端傳來的訊息
 class ChatRequest(BaseModel):
