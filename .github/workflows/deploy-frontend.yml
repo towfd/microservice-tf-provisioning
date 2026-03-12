@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 'fix/frontend-build'
     paths:
       - 'frontend/**'
   workflow_dispatch:             
