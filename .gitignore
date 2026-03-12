@@ -29,3 +29,4 @@ services/auth/db.sqlite3
 # ========================
 .env
 .env.*
+.venv/
