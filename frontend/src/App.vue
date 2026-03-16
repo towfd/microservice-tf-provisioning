@@ -53,7 +53,7 @@ const userInput = ref('');
 const isLoading = ref(false);
 const chatBox = ref(null);
 
-const API_URL = 'http://35.221.184.82/api/ai/chat'; 
+const API_URL = 'http://35.185.134.0/api/ai/chat';
 
 // 讓視窗永遠滾動到最底部的功能
 const scrollToBottom = async () => {
